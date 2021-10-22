@@ -14,13 +14,15 @@ def main(args):
         return
 
     total_count = 0
+    success_count = 0
+    ignored_count = 0
 
     with open(json_file_path) as f:
         data = json.load(f)
 
     for image_name in data["frames"]:
-        total_count += 1
         converted_lines = []
+        total_count += 1
 
         for box in data["frames"][image_name]:
             width = box["width"]
@@ -46,6 +48,7 @@ def main(args):
 
         if os.path.exists(f"{file_leading_name}.jpg") is False:
             print(f"{image_name_without_file_type} 的相片不存在，忽略轉檔")
+            ignored_count += 1
             continue
 
         with open(f"{images_folder_path}/{image_name_without_file_type}.txt", "w") as output_file:
@@ -54,9 +57,12 @@ def main(args):
                 output_file.write(f"{line}\n")
 
             print(f"{image_name_without_file_type} 轉換成功")
+            success_count += 1
 
     print("")
-    print(f"全數文件皆已轉換完畢，一共 {total_count} 張")
+    print(f"全數文件皆已轉換完畢，全部 {total_count} 張")
+    print(f"因為相片不存在，忽略的轉換有 {ignored_count} 張")
+    print(f"成功轉換的相片有: {success_count} 張")
     print("")
 
 
