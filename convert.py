@@ -42,6 +42,12 @@ def main(args):
 
         image_name_without_file_type = os.path.splitext(image_name)[0]
 
+        file_leading_name = f"{images_folder_path}/{image_name_without_file_type}"
+
+        if os.path.exists(f"{file_leading_name}.jpg") is False:
+            print(f"{image_name_without_file_type} 的相片不存在，忽略轉檔")
+            continue
+
         with open(f"{images_folder_path}/{image_name_without_file_type}.txt", "w") as output_file:
 
             for line in converted_lines:
